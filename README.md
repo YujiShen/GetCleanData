@@ -66,4 +66,3 @@ Here are the data for the project:
 	* TidyData.txt
 	* AveBySubjectActivity.txt
 	* Summary.txt
-* getdata-projectfiles-UCI HAR Dataset.zip
