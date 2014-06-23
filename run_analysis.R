@@ -44,15 +44,20 @@ test <- cbind(test, test.act)
 ## combine train and test
 data <- rbind(train, test)
 
-## get means for each measurement
-#mean.all <- colMeans(data[, 1:561])
-mean.all <- numcolwise(mean)(data[-c(562:564)])
-## get standard diviation for each measurement
-# sd.all <- apply(data[, 1:561], 2, sd)
-sd.all <- numcolwise(sd)(data[-c(562:564)])
-## combine summary to data.frame
-summary <- rbind(mean.all, sd.all)
-rownames(summary) <- c("mean", "sd")
+# ## get means for each measurement
+# #mean.all <- colMeans(data[, 1:561])
+# mean.all <- numcolwise(mean)(data[-c(562:564)])
+# ## get standard diviation for each measurement
+# # sd.all <- apply(data[, 1:561], 2, sd)
+# sd.all <- numcolwise(sd)(data[-c(562:564)])
+# ## combine summary to data.frame
+# summary <- rbind(mean.all, sd.all)
+# rownames(summary) <- c("mean", "sd")
+
+###############################################
+## "Extract", not "Calculate". 
+MeanSd <- subset(data, select = grep("mean|std", ignore.case = T, name.features[[2]]))
+###############################################
 
 ## calculate the mean by subject and activity
 new.data <- ddply(sub.data, .(sub.data$subject, sub.data$ActivityNames), numcolwise(mean))
@@ -61,4 +66,4 @@ colnames(new.data)[1:2] <- c("subject", "ActivityNames")
 ## write the data
 write.table(data, file = "TidyData.txt")
 write.table(new.data, file = "AveBySubjectActivity.txt")
-write.table(summary, file = "Summary.txt")
+write.table(MeanSd, file = "MeanSd.txt")
